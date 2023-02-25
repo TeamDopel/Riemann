@@ -15,6 +15,8 @@ types-emoji = "^2.1.0"
 discord = "^2.1.0"
 openai = {version = "^0.26.5", extras = ["embeddings", "datalib"]}
 tiktoken = "^0.2.0"
+sklearn = "0.0.post1"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 
