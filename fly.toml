@@ -1,6 +1,6 @@
-# fly.toml file generated for black-grass-1901 on 2023-02-24T21:08:53-05:00
+# fly.toml file generated for riemann-discord-bot on 2023-02-25T11:53:07-05:00
 
-app = "black-grass-1901"
+app = "riemann-discord-bot"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
