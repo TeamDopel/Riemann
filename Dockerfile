@@ -9,5 +9,5 @@ COPY pyproject.toml .
 COPY summarize.py .
 
 RUN pip install poetry
-RUN poetry install
-ENTRYPOINT poetry run python main.py
+RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
+CMD python main.py
