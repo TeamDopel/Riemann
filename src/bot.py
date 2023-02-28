@@ -9,8 +9,6 @@ from uuid import UUID, uuid4
 from summarize import generate_summary, query_summary
 from translate import translate
 
-import guess_language
-
 ### LOADS ENV VARS ###
 from dotenv import load_dotenv
 
