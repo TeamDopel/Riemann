@@ -1,3 +1,5 @@
+*.env
+fly.toml
 .env
 venv
 env

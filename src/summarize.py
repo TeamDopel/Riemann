@@ -3,9 +3,16 @@ import openai
 from typing import Dict, List, Tuple
 import numpy as np
 import tiktoken
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 COMPLETIONS_MODEL = "text-davinci-003"
 EMBEDDING_MODEL = "text-embedding-ada-002"
+
+openai.api_key = os.getenv('OPEN_AI_API_KEY')
 
 def get_embedding(text: str, model: str=EMBEDDING_MODEL) -> List[float]:
 	result = openai.Embedding.create(
@@ -96,7 +103,7 @@ def query_summary(query: str, messages: Dict[int, str]) -> str:
 
 	return completion.choices[0].text.strip()
 
-start_sequence = start_sequence = "Paraphrase, in detail, what was being discussed in this text channel. The summary should include the people who were speaking, what they were talking about, and how long they were talking about it. A lot of the language will be slang, please interpret it non literally, a lot of these terms are defined by Urban Dictionary. Use these terms to explain what's happening in chat without defining the terms in your answer. DO NOT DEFINE THE JARGON BEING USED. For example, if a person says ong fr, do not translate that statements or expand the meaning, just use it in context. If you approach language that isn't common, do not give it an explanation or a defintiion."
+start_sequence = "Paraphrase, in detail, what was being discussed in this text channel. The summary should include the people who were speaking, what they were talking about, and how long they were talking about it. A lot of the language will be slang, please interpret it non literally, a lot of these terms are defined by Urban Dictionary. Use these terms to explain what's happening in chat without defining the terms in your answer. DO NOT DEFINE THE JARGON BEING USED. For example, if a person says ong fr, do not translate that statements or expand the meaning, just use it in context. If you approach language that isn't common, do not give it an explanation or a defintiion."
 
 restart_sequence = "Are there any more questions you have?"
 
