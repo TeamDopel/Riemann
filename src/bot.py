@@ -142,8 +142,11 @@ def run_discord_bot():
 			#oldest_message, newest_message = messages[0].created_at, messages[-1].created_at
 			#duration = newest_message - oldest_message
 			def formatTime(time_str):
-				dt = datetime.datetime.strptime(time_str[:-6], '%Y-%m-%d %H:%M:%S.%f')
-				return f'{dt.strftime("%b %d %Y at %I:%M%p")}'
+				try:
+					dt = datetime.datetime.strptime(time_str[:-6], '%Y-%m-%d %H:%M:%S.%f')
+					return f'{dt.strftime("%b %d %Y at %I:%M%p")}'
+				except:
+					return 'Error Getting Time'
 			
 			for message in messages:
 				user = message.author
