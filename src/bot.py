@@ -123,7 +123,7 @@ def run_discord_bot():
 		)
 		await interaction.response.send_message(translate(source_language, translation_language, "Check DMs for a translation!")['translation'], ephemeral=True)
 		await interaction.user.send(embed=embed)
-		
+
 	@tree.command(name = "translate-chat", description = "Translate some text! Choose starting language and result language")
 	async def translateChat(
 		interaction: discord.Interaction, 
@@ -151,7 +151,7 @@ def run_discord_bot():
 				user = message.author
 				embed = (
 					discord.Embed(
-						description=translate(source_language, translation_language, emojize(message.clean_content, language='alias'))
+						description=translate(source_language, translation_language, emojize(message.clean_content, language='alias'))['translation']
 					)
 					.set_author(name=user.display_name)
 					.set_footer(text=f'{formatTime(str(message.created_at))}')
