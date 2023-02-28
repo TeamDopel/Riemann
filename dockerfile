@@ -2,12 +2,7 @@ FROM python:3.11-slim-buster
 
 WORKDIR /
 
-COPY bot.py .
-COPY main.py .
-COPY poetry.lock .
-COPY pyproject.toml .
-COPY summarize.py .
+COPY / /
 
-RUN pip install poetry
-RUN poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
-CMD python main.py
+RUN pip install -r requirements.txt
+CMD python src/main.py
