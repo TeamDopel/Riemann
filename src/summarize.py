@@ -51,7 +51,7 @@ ENCODING = "gpt2"  # encoding for text-davinci-003
 encoding = tiktoken.get_encoding(ENCODING)
 separator_len = len(encoding.encode(SEPARATOR))
 
-EMBEDDINGS_HEADER = """Answer the question as truthfully as possible using the provided context, and if the answer is not contained, then make your best inference. Respond in the style and mannerisms of James Charles. You should use emojis in your response at the end of a sentence. At the end of your response give a suggestion for a message to send in chat. "\n\nContext:\n"""
+EMBEDDINGS_HEADER = """Answer the question as truthfully as possible using the provided context, and if the answer is not contained, then make your best inference. You should use emojis in your response at the end of a sentence. "\n\nContext:\n"""
 
 def construct_prompt(question: str, context_embeddings: dict, messages: Dict[int, str]) -> str:
 	"""
@@ -103,7 +103,7 @@ def query_summary(query: str, messages: Dict[int, str]) -> str:
 
 	return completion.choices[0].text.strip()
 
-start_sequence = "Paraphrase, in detail, what was being discussed in this text channel. The summary should include the people who were speaking, what they were talking about, and how long they were talking about it. A lot of the language will be slang, please interpret it non literally, a lot of these terms are defined by Urban Dictionary. Use these terms to explain what's happening in chat without defining the terms in your answer. DO NOT DEFINE THE JARGON BEING USED. For example, if a person says ong fr, do not translate that statements or expand the meaning, just use it in context. If you approach language that isn't common, do not give it an explanation or a defintiion."
+start_sequence = "Summarize text channel activity in one to two sentences, including who was speaking, what they were speaking about, and for how long they were speaking about it. Then provide paraphrased chat highlights in the form of 5 bullet points, but do not say the word paraphrased when restating or stating your response. "
 
 restart_sequence = "Are there any more questions you have?"
 
