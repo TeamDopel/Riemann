@@ -113,14 +113,17 @@ def run_discord_bot():
 
 	@tree.command(name = "translate", description = "Translate some text! Choose starting language and result language")
 	async def translateCommand(interaction: discord.Interaction, source_language: str, translation_language: str, text:str):
-		print(f'src-lang: {source_language} \n trans-lang:{translation_language} \n text: {text}')
-		embed = (
-			discord.Embed(
-				description=translate(source_language, translation_language, text)['translation']
-			)
-		)
-		await interaction.response.send_message(translate(source_language, translation_language, "Check DMs for a translation!")['translation'], ephemeral=True)
-		await interaction.user.send(embed=embed)
+		translation = translate(source_language, translation_language, text)
+		if 'errors' in translation.keys(): 
+			await interaction.response.send_message(
+				translation['errors']['message'][0], 
+				ephemeral=True
+				)
+		else: 
+			await interaction.response.send_message(
+				translation[list(translation.keys())[0]], 
+				ephemeral=True
+				)
 
 	@tree.command(name = "translate-chat", description = "Translate some text! Choose starting language and result language")
 	async def translateChat(
@@ -128,6 +131,9 @@ def run_discord_bot():
 		source_language: str, 
 		translation_language: str,
 		number_of_messages: int = 50):
+		
+		error_found = False
+
 		if len(source_language) != 2:
 			await interaction.response.send_message('Source Language Invalid')
 			return ''
@@ -136,11 +142,7 @@ def run_discord_bot():
 			return ''
 		async def send_dm():
 			messages = await last_n_messages(interaction.channel, n=number_of_messages)
-	
-			#users = {message.author for message in messages}
-			#embed_urls = set(embed.url for embed in chain.from_iterable(message.embeds for message in messages) if embed.url)
-			#oldest_message, newest_message = messages[0].created_at, messages[-1].created_at
-			#duration = newest_message - oldest_message
+
 			def formatTime(time_str):
 				try:
 					dt = datetime.datetime.strptime(time_str[:-6], '%Y-%m-%d %H:%M:%S.%f')
@@ -150,17 +152,30 @@ def run_discord_bot():
 			
 			for message in messages:
 				user = message.author
-				embed = (
-					discord.Embed(
-						description=translate(source_language, translation_language, emojize(message.clean_content, language='alias'))['translation']
+				translation = translate(source_language, translation_language, emojize(message.clean_content, language='alias'))
+				if 'errors' in translation.keys(): 
+					await interaction.response.send_message(
+						translation['errors']['message'][0], 
+						ephemeral=True
+						)
+					error_found = True
+					break
+				elif not error_found:
+					embed = (
+						discord.Embed(
+							description=translation['translation']
+						)
+						.set_author(name=user.display_name)
+						.set_footer(text=f'{formatTime(str(message.created_at))}')
 					)
-					.set_author(name=user.display_name)
-					.set_footer(text=f'{formatTime(str(message.created_at))}')
-				)
 
-				await interaction.user.send(embed=embed)
-
-		await interaction.response.send_message("Check DMs for a summary! ;)", ephemeral=True)
+					await interaction.user.send(embed=embed)
+		
 		await send_dm()
+		# switch to an if statement for speed
+		try:
+			await interaction.response.send_message(translate(source_language, translation_language, "Check DMs for a translation! ;)")['translation'], ephemeral=True)
+		except KeyError:
+			pass
 	# Remember to run your bot with your personal TOKEN
 	client.run(TOKEN)
