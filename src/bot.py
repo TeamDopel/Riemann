@@ -132,7 +132,7 @@ def run_discord_bot():
 		translation_language: str,
 		number_of_messages: int = 50):
 		
-		error_found = False
+		
 
 		if len(source_language) != 2:
 			await interaction.response.send_message('Source Language Invalid')
@@ -141,6 +141,8 @@ def run_discord_bot():
 			await interaction.response.send_message('Translation Language Invalid')
 			return ''
 		async def send_dm():
+			error_found = False
+			
 			messages = await last_n_messages(interaction.channel, n=number_of_messages)
 
 			def formatTime(time_str):
