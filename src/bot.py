@@ -170,14 +170,15 @@ def run_discord_bot():
 						.set_author(name=user.display_name)
 						.set_footer(text=f'{formatTime(str(message.created_at))}')
 					)
-
 					await interaction.user.send(embed=embed)
 		
-		await send_dm()
+
 		# switch to an if statement for speed
 		try:
 			await interaction.response.send_message(translate(source_language, translation_language, "Check DMs for a translation! ;)")['translation'], ephemeral=True)
 		except KeyError:
 			pass
+		
+		await send_dm()
 	# Remember to run your bot with your personal TOKEN
 	client.run(TOKEN)
