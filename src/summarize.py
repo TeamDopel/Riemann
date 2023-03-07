@@ -51,7 +51,7 @@ ENCODING = "gpt2"  # encoding for text-davinci-003
 encoding = tiktoken.get_encoding(ENCODING)
 separator_len = len(encoding.encode(SEPARATOR))
 
-EMBEDDINGS_HEADER = """Answer the question as truthfully as possible using the provided context, and if the answer is not contained, then make your best inference. You should use emojis in your response at the end of a sentence. "\n\nContext:\n"""
+EMBEDDINGS_HEADER = """Answer the question as truthfully as possible using the provided context, and if the answer is not contained, then make your best inference. You should use emojis in your response at the end of a sentence. If a translation is asked for, provide it, but refer the user to the /translate command for text translations or /translate-chat command for chat translations. "\n\nContext:\n"""
 
 def construct_prompt(question: str, context_embeddings: dict, messages: Dict[int, str]) -> str:
 	"""
@@ -103,7 +103,7 @@ def query_summary(query: str, messages: Dict[int, str]) -> str:
 
 	return completion.choices[0].text.strip()
 
-start_sequence = "Summarize text channel activity in one sentence, including who was speaking, what they were speaking about, and for how long they were speaking about it. Then provide paraphrased chat highlights in the form of 5 bullet points, but do not say the word paraphrased when restating or stating your response. "
+start_sequence = "Summarize text channel activity in one sentence, including who was speaking, what they were speaking about, and for how long they were speaking about it. Then provide chat highlights in the form of 5 bullet points, in your own words. "
 
 restart_sequence = "Are there any more questions you have?"
 
