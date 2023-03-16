@@ -103,7 +103,7 @@ def query_summary(query: str, messages: Dict[int, str]) -> str:
 
 	return completion.choices[0].text.strip()
 
-start_sequence = "Summarize text channel activity in one sentence, including who was speaking, what they were speaking about, and for how long they were speaking about it. Then provide chat highlights in the form of 5 bullet points, in your own words. "
+start_sequence = "Please, send back corrected messages that may have had any grammatical issues"
 
 restart_sequence = "Are there any more questions you have?"
 
